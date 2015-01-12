@@ -21,7 +21,7 @@ defmodule OAuth2Cli.Strategy.Verified do
     case Request.get(discovery) do
       {:ok, response} ->
         {standard, extra} = Dict.split(response.body, keys())
-        {:ok, struct(__MODULE__, Dict.merge(standard, params |> Dict.put(:discovery_params, extra)))}
+        {:ok, struct(__MODULE__, Dict.merge(standard, params |> sanitize_params() |> Dict.put(:discovery_params, extra)))}
       error -> error
     end
   end
@@ -29,7 +29,7 @@ defmodule OAuth2Cli.Strategy.Verified do
   def authorize_user(code, strategy, params \\ %{}) do
     request = Dict.take(strategy |> Map.from_struct, strategy.token_request_keys)
       |> Dict.put(:code, code)
-      |> Dict.merge(params)
+      |> Dict.merge(params |> sanitize_params())
 
     case Request.post(token_url(strategy), request, headers(strategy), []) do
       {:error, reason} -> {:error, %Error{reason: reason}}
@@ -52,5 +52,13 @@ defmodule OAuth2Cli.Strategy.Verified do
     base <> "?"
   end
 
+  defp sanitize_params(params) do
+    Enum.reduce(params, %{}, fn({k, v}, acc) ->
+      if (is_list(v)), do:
+        v = List.to_string(v)
+
+      Dict.put(acc, k, v)
+    end)
+  end
 
 end

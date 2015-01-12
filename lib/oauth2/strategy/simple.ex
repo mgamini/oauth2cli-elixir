@@ -15,12 +15,13 @@ defmodule OAuth2Cli.Strategy.Simple do
     token_request_keys: [:client_id, :client_secret, :redirect_uri, :grant_type]
 
   def new(params) do
-    {:ok, struct(__MODULE__, params)}
+    {:ok, struct(__MODULE__, sanitize_params(params))}
   end
 
   def authorize_user(code, strategy, params) do
     request = Dict.take(strategy |> Map.from_struct, strategy.token_request_keys)
       |> Dict.put(:code, code)
+      |> Dict.merge(params |> sanitize_params())
 
     case Request.post(token_url(strategy), request, headers(strategy), []) do
       {:error, reason} -> {:error, %Error{reason: reason}}
@@ -39,5 +40,15 @@ defmodule OAuth2Cli.Strategy.Simple do
 
     base <> "?"
   end
+
+  defp sanitize_params(params) do
+    Enum.reduce(params, %{}, fn({k, v}, acc) ->
+      if (is_list(v)), do:
+        v = List.to_string(v)
+
+      Dict.put(acc, k, v)
+    end)
+  end
+
 end
 
