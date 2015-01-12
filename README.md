@@ -1,7 +1,7 @@
 OAuth2Cli
 ======
 
-Much (very much) of this code is derived from [Sonny Rogson's great OAuth2 package](https://github.com/scrogson/oauth2), but it wasn't quite fitting my needs, so I ended up making my own. There are a few key differences between them.
+Much (very much) of this code is derived from [Sonny Scroggin's great OAuth2 package](https://github.com/scrogson/oauth2), but it wasn't quite fitting my needs, so I ended up making my own. There are a few key differences between them.
 
 OAuth2Cli:
 > 1. Holds OAuth strategies in memory for later use
