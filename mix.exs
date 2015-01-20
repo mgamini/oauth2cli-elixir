@@ -34,7 +34,7 @@ defmodule OAuth2Cli.Mixfile do
     [
       {:hackney,      "~> 0.14.1"},
       {:httpoison,    "~> 0.5.0"},
-      {:poison,       "~> 1.2.0"},
+      {:poison,       "~> 1.2"},
       {:cowboy,       "~> 1.0.0", optional: true},
       {:plug,         "~> 0.9.0"},
     ]
