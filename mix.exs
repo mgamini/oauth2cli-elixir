@@ -8,12 +8,12 @@ defmodule OAuth2Cli.Mixfile do
   def project do
     [
       app: :oauth2cli,
-      version: "0.0.3",
+      version: "0.0.4",
       elixir: "~> 1.0",
       deps: deps,
       description: @description,
       package: [
-        contributors: ["Garrett Amini", "Sonny Scroggin", "Nate West"],
+        contributors: ["Garrett Amini", "Sonny Scroggin", "Nate West", "Jamie Winsor"],
         licenses: ["MIT"],
         links: %{"Github": "https://github.com/mgamini/oauth2cli-elixir"}
       ]
